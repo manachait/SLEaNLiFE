@@ -17,11 +17,12 @@ function onDeviceReady(){
 	mydb = window.openDatabase("db1", "1.0", "Test DB", 1024 * 1024);
 	mydb.transaction(createDB, onSuccess, onError);
 	alert("Create DB OK");
-	mydb.transaction(queryDB, onSuccess, onError);
+	mydb.transaction(queryDB, querySuccess, onError);
 	alert("Number of Record " + reccount);
 	if (reccount == 0){
-		mydb.transaction(insertDB, errorCB, successCB);
+		mydb.transaction(insertDB, onSuccess, onError);
 	}
+	mydb.transaction(queryDB, querySuccess, onError);
 }
 function onError(e){
 	alert("Error " + e.code + e.message);
