@@ -75,15 +75,14 @@ function querySuccess(t, results){
 	for (i = 0; i < results.rows.length; i++){
 	    alert("querySuccess eLoc: " + results.rows.item(i).eventLoc);
 	    mydb.transaction(function(transaction){
-			transaction.executeSql('SELECT * FROM medicineTrack WHERE eventLoc = "' + results.rows.item(i) + '";',[],
+			transaction.executeSql('SELECT * FROM medicineTrack WHERE eventLoc = ' + results.rows.item(i) + ';',[],
 			    function(transaction, result){
 				    alert("medicineTrack rows: " + result.rows.length);
-					if (result == null){
+					if (result.rows.length == 0){
 						$("#listcalendar").append('<li><a href="JavaScript: addMed(' + results.rows.item(i).eventLoc + ')">' + results.rows.item(i).title + '</a></li>');					
 					}				
-				}, onError			
-			);
-		}, onSuccess, onError);
+				}, onError);
+		}, onError, onSuccess);
 	}
 	$("#listcalendar").listview("refresh");
 }
