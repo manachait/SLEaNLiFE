@@ -71,14 +71,19 @@ function addMed(eLoc){
 
 function querySuccess(t, results){
 	reccount = results.rows.length;
-	$("#test").listview().listview("refresh");
+	$("#listcalendar").listview().listview("refresh");
 	for (i = 0; i < results.rows.length; i++){
-		$("#listcalendar").append('<li><a href="JavaScript: addMed(' + results.rows.item(i).eventLoc + ')">' + results.rows.item(i).title + '</a></li>');
+		mydb.transaction(function(transaction) {
+			transaction.executeSql('SELECT * FROM medicineTrack WHERE eventLoc = ' + results.rows.item(i).eventLoc, [],
+			function(transaction, result) {
+				if (result == null && result.rows == null){
+					$("#listcalendar").append('<li><a href="JavaScript: addMed(' + results.rows.item(i).eventLoc + ')">' + results.rows.item(i).title + '</a></li>');
+				}
+			},onError);
 	}
 	$("#listcalendar").listview("refresh");
 	alert("Number of Records after insert " + reccount);
 }
-
 </script>
 </head>
 <body onload="init()">
