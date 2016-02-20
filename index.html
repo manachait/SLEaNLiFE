@@ -52,9 +52,11 @@ function queryDB(t){
 }
 function querySuccess(t, results){
 	reccount = results.rows.length;
+	$("#test").listview().listview("refresh");
 	for (i = 0; i < results.rows.length; i++){
 		$("#listcalendar").append('<li><a href="JavaScript: addMed(' + results.rows.item(i).eventLoc + ')">' + results.rows.item(i).title + '</a></li>');
 	}
+	$("#listcalendar").listview("refresh");
 }
 </script>
 </head>
