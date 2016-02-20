@@ -53,6 +53,37 @@ function read(){
 function queryDB(t){
 	t.executeSql('SELECT * FROM calendar',[], querySuccess, onError);
 }
+
+function queryDB2(t){
+	t.executeSql('SELECT * FROM medicineTrack',[], query2Success, onError);
+}
+
+function query2Success(t, results){
+	searchcount = results.rows.length;
+}
+
+function addMed(eLoc){
+    var d = new Date();
+	mydb.transaction(insertMedDB(eLoc), onSuccess, onError);
+	mydb.transaction(function(transaction) {
+		transaction.executeSql('INSERT INTO medicineTrack(eventLoc, timestamp)
+			VALUES (?,?)',[eLoc, d],
+			onSuccess,onError);
+   });	
+   alert("Search Count " + searchcount);
+}
+
+function insertMedDB(t) {
+    t.executeSql('INSERT INTO calendar(eventLoc, title) VALUES ("00001", "Medicine1")');
+	t.executeSql('INSERT INTO calendar(eventLoc, title) VALUES ("00002", "Medicine2")');
+	t.executeSql('INSERT INTO calendar(eventLoc, title) VALUES ("00003", "Medicine3")');
+	t.executeSql('INSERT INTO calendar(eventLoc, title) VALUES ("00004", "Medicine4")');
+	t.executeSql('INSERT INTO calendar(eventLoc, title) VALUES ("00005", "Medicine5")');
+	t.executeSql('INSERT INTO calendar(eventLoc, title) VALUES ("00006", "Medicine6")');
+	t.executeSql('INSERT INTO calendar(eventLoc, title) VALUES ("00007", "Medicine7")');
+	t.executeSql('INSERT INTO calendar(eventLoc, title) VALUES ("00008", "Medicine8")');
+}
+
 function querySuccess(t, results){
 	reccount = results.rows.length;
 	$("#test").listview().listview("refresh");
