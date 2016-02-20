@@ -74,12 +74,12 @@ function querySuccess(t, results){
 	$("#listcalendar").listview().listview("refresh");
 	for (i = 0; i < results.rows.length; i++){
 		mydb.transaction(function(transaction) {
-			transaction.executeSql('SELECT * FROM medicineTrack WHERE eventLoc = ' + results.rows.item(i).eventLoc, [],
+			transaction.executeSql('SELECT * FROM medicineTrack WHERE eventLoc = "' + results.rows.item(i).eventLoc + '";', [], 
 			function(transaction, result) {
 				if (result == null && result.rows == null){
 					$("#listcalendar").append('<li><a href="JavaScript: addMed(' + results.rows.item(i).eventLoc + ')">' + results.rows.item(i).title + '</a></li>');
 				}
-			},onError);
+			}, onError);
 	}
 	$("#listcalendar").listview("refresh");
 	alert("Number of Records after insert " + reccount);
