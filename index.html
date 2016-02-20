@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" />
+<script type = "text/javascript" src="js/jquery-2.1.4.min.js"></script>
+<script type = "text/javascript" src="js/jquery.mobile-1.4.5.min.js"></script>
+<script>
+var mydb;
+var reccount = 0;
+var searchcount = 0;
+function init(){
+    document.addEventListener("deviceready", onDeviceReady, false);
+}
+function onDeviceReady(){
+    $("#checkdevice").html("Device is ready");
+	mydb = window.openDatabase("db1", "1.0", "Test DB", 1024 * 1024);
+	mydb.transaction(createDB, onSuccess, onError);
+	mydb.transaction(queryDB, onSuccess, onError);
+	if (reccount == 0){
+		mydb.transaction(insertDB, errorCB, successCB);
+	}
+}
+function onError(e){
+	alert("Error " + e.code + e.message);
+}
+function onSuccess(){
+	
+}
+
+function createDB(t){
+	t.executeSql('CREATE TABLE IF NOT EXISTS calendar(eventLoc, title)');
+	t.executeSql('CREATE TABLE IF NOT EXISTS medicineTrack(eventLoc, timestamp)');
+}
+
+function insertDB(t) {
+    t.executeSql('INSERT INTO calendar(eventLoc, title) VALUES ("00001", "Medicine1")');
+	t.executeSql('INSERT INTO calendar(eventLoc, title) VALUES ("00002", "Medicine2")');
+	t.executeSql('INSERT INTO calendar(eventLoc, title) VALUES ("00003", "Medicine3")');
+	t.executeSql('INSERT INTO calendar(eventLoc, title) VALUES ("00004", "Medicine4")');
+	t.executeSql('INSERT INTO calendar(eventLoc, title) VALUES ("00005", "Medicine5")');
+	t.executeSql('INSERT INTO calendar(eventLoc, title) VALUES ("00006", "Medicine6")');
+	t.executeSql('INSERT INTO calendar(eventLoc, title) VALUES ("00007", "Medicine7")');
+	t.executeSql('INSERT INTO calendar(eventLoc, title) VALUES ("00008", "Medicine8")');
+}
+		
+function read(){
+	mydb.transaction(queryDB, onSuccess, onError)
+}
+function queryDB(t){
+	t.executeSql('SELECT * FROM calendar',[], querySuccess, onError);
+}
+function querySuccess(t, results){
+	reccount = results.rows.length;
+	for (i = 0; i < results.rows.length; i++){
+		$("#listcalendar").append('<li><a href="JavaScript: addMed(' + results.rows.item(i).eventLoc + ')">' + results.rows.item(i).title + '</a></li>');
+	}
+}
+</script>
+</head>
+<body onload="init()">
+<h1 id="checkdevice">Wait...</h1>
+<input type="text" id="data"/><br/>
+<div>
+	<ul id="listcalendar" data-role="listview">
+	</ul>
+</div>
+<script type="text/javascript" src="cordova.js"></script>
+</body>
+</html>
