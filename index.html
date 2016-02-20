@@ -65,17 +65,19 @@ function addMed(eLoc){
 	mydb.transaction(function(transaction) {
 		transaction.executeSql('INSERT INTO medicineTrack(eventLoc, timestamp) VALUES (?,?)', [eLoc, d], onSuccess,onError);
    });	
-   alert("eLoc " + eLoc);
    mydb.transaction(queryDB2, query2Success, onError);
 }
 
 function querySuccess(t, results){
 	reccount = results.rows.length;
+	alert("querySuccess reccount: " + reccount);
 	$("#listcalendar").listview().listview("refresh");
 	for (i = 0; i < results.rows.length; i++){
+	    alert("querySuccess eLoc: " + results.rows.item(i).eventLoc);
 	    mydb.transaction(function(transaction){
 			transaction.executeSql('SELECT * FROM medicineTrack WHERE eventLoc = "' + results.rows.item(i) + '";',[],
 			    function(transaction, result){
+				    alert("medicineTrack rows: " + result.rows.length);
 					if (result == null){
 						$("#listcalendar").append('<li><a href="JavaScript: addMed(' + results.rows.item(i).eventLoc + ')">' + results.rows.item(i).title + '</a></li>');					
 					}				
@@ -84,7 +86,6 @@ function querySuccess(t, results){
 		}, onSuccess, onError);
 	}
 	$("#listcalendar").listview("refresh");
-	alert("Number of Records after insert " + reccount);
 }
 </script>
 </head>
