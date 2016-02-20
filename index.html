@@ -64,7 +64,6 @@ function query2Success(t, results){
 
 function addMed(eLoc){
     var d = new Date();
-	mydb.transaction(insertMedDB(eLoc), onSuccess, onError);
 	mydb.transaction(function(transaction) {
 		transaction.executeSql('INSERT INTO medicineTrack(eventLoc, timestamp)
 			VALUES (?,?)',[eLoc, d],
@@ -92,6 +91,7 @@ function querySuccess(t, results){
 	}
 	$("#listcalendar").listview("refresh");
 }
+
 </script>
 </head>
 <body onload="init()">
