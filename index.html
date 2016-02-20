@@ -57,6 +57,7 @@ function queryDB2(t){
 
 function query2Success(t, results){
 	searchcount = results.rows.length;
+	alert("Search Count: " + searchcount);	
 }
 
 function addMed(eLoc){
@@ -66,7 +67,6 @@ function addMed(eLoc){
    });	
    alert("eLoc " + eLoc);
    mydb.transaction(queryDB2, query2Success, onError);
-   alert("Search Count: " + searchcount);
 }
 
 function querySuccess(t, results){
