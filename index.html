@@ -16,7 +16,9 @@ function onDeviceReady(){
     $("#checkdevice").html("Device is ready");
 	mydb = window.openDatabase("db1", "1.0", "Test DB", 1024 * 1024);
 	mydb.transaction(createDB, onSuccess, onError);
+	alert("Create DB OK");
 	mydb.transaction(queryDB, onSuccess, onError);
+	alert("Number of Record " + reccount);
 	if (reccount == 0){
 		mydb.transaction(insertDB, errorCB, successCB);
 	}
