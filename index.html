@@ -69,17 +69,6 @@ function addMed(eLoc){
    alert("Search Count: " + searchcount);
 }
 
-function insertMedDB(t) {
-    t.executeSql('INSERT INTO calendar(eventLoc, title) VALUES ("00001", "Medicine1")');
-	t.executeSql('INSERT INTO calendar(eventLoc, title) VALUES ("00002", "Medicine2")');
-	t.executeSql('INSERT INTO calendar(eventLoc, title) VALUES ("00003", "Medicine3")');
-	t.executeSql('INSERT INTO calendar(eventLoc, title) VALUES ("00004", "Medicine4")');
-	t.executeSql('INSERT INTO calendar(eventLoc, title) VALUES ("00005", "Medicine5")');
-	t.executeSql('INSERT INTO calendar(eventLoc, title) VALUES ("00006", "Medicine6")');
-	t.executeSql('INSERT INTO calendar(eventLoc, title) VALUES ("00007", "Medicine7")');
-	t.executeSql('INSERT INTO calendar(eventLoc, title) VALUES ("00008", "Medicine8")');
-}
-
 function querySuccess(t, results){
 	reccount = results.rows.length;
 	$("#test").listview().listview("refresh");
@@ -87,6 +76,7 @@ function querySuccess(t, results){
 		$("#listcalendar").append('<li><a href="JavaScript: addMed(' + results.rows.item(i).eventLoc + ')">' + results.rows.item(i).title + '</a></li>');
 	}
 	$("#listcalendar").listview("refresh");
+	alert("Number of Records after insert " + reccount);
 }
 
 </script>
