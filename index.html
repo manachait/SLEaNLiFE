@@ -7,6 +7,7 @@
 <script type = "text/javascript" src="js/jquery.mobile-1.4.5.min.js"></script>
 <script>
 var mydb;
+var mydb2;
 var reccount = 0;
 var searchcount = 0;
 function init(){
@@ -15,6 +16,7 @@ function init(){
 function onDeviceReady(){
     $("#checkdevice").html("Device is ready");
 	mydb = window.openDatabase("db1", "1.0", "Test DB", 1024 * 1024);
+	mydb2 = window.openDatabase("db1", "1.0", "Test DB", 1024 * 1024);
 	mydb.transaction(createDB, onSuccess, onError);
 	alert("Create DB OK");
 	mydb.transaction(queryDB, querySuccess, onError);
@@ -74,15 +76,17 @@ function querySuccess(t, results){
 	$("#listcalendar").listview().listview("refresh");
 	for (i = 0; i < results.rows.length; i++){
 	    alert("querySuccess eLoc: " + results.rows.item(i).eventLoc);
-	    mydb.transaction(function(transaction){
-			transaction.executeSql('SELECT * FROM medicineTrack WHERE eventLoc = ' + results.rows.item(i) + ';',[],
-			    function(transaction, result){
+	    mydb2.transaction(function(transaction){
+		    var sql = 'SELECT * FROM medicineTrack WHERE eventLoc = ' + results.rows.item(i) + ';'
+			alert sql; 
+			transaction.executeSql(sql ,[], 
+			function(transaction, result){
 				    alert("medicineTrack rows: " + result.rows.length);
 					if (result.rows.length == 0){
 						$("#listcalendar").append('<li><a href="JavaScript: addMed(' + results.rows.item(i).eventLoc + ')">' + results.rows.item(i).title + '</a></li>');					
-					}				
-				}, onError);
-		}, onError, onSuccess);
+					}
+			}, onError);
+		}, onSuccess, onError);
 	}
 	$("#listcalendar").listview("refresh");
 }
